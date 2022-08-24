@@ -1,6 +1,7 @@
 #ifndef interval_h
 #define interval_h
 
+#include <limits>
 #include <type_traits>
 
 namespace interval
