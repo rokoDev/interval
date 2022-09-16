@@ -35,7 +35,7 @@ struct Interval<Min<MinV>, Max<MaxV>>
     using IndexT = std::make_unsigned_t<T>;
     using value_type = T;
 
-    constexpr eIntervalLocation location(T aValue) const noexcept
+    static constexpr eIntervalLocation location(T aValue) noexcept
     {
         if (aValue >= kMin)
         {
