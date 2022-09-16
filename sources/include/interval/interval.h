@@ -23,16 +23,17 @@ enum class eIntervalLocation : uint8_t
     kBelow = 0b100    //  value location is below the interval
 };
 
-template <typename T, typename MinT, typename MaxT>
+template <typename MinT, typename MaxT>
 struct Interval;
 
 template <typename T, T MinV, T MaxV>
-struct Interval<T, Min<MinV>, Max<MaxV>>
+struct Interval<Min<MinV>, Max<MaxV>>
 {
     static_assert(MinV <= MaxV, "interval cannot be empty");
     static constexpr T kMin = MinV;
     static constexpr T kMax = MaxV;
     using IndexT = std::make_unsigned_t<T>;
+    using value_type = T;
 
     constexpr eIntervalLocation location(T aValue) const noexcept
     {
