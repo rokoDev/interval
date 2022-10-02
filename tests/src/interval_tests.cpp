@@ -259,3 +259,46 @@ TEST(IntervalUnsigned, MaxIndexTest3)
     static_assert(std::is_same_v<IntervalT::IndexT, uint16_t>,
                   "Invalid index type");
 }
+
+TEST(IntervalSigned, ValueAt1)
+{
+    using IntT = int8_t;
+    constexpr IntT kMin = -100_i8;
+    constexpr IntT kMax = -90_i8;
+    using IntervalT =
+        interval::Interval<interval::Min<kMin>, interval::Max<kMax>>;
+    static_assert(IntervalT::valueAt(2_u8) == -98_i8, "Invalid value");
+}
+
+TEST(IntervalUnsigned, ValueAt2)
+{
+    using IntT = int16_t;
+    constexpr IntT kMin = std::numeric_limits<IntT>::min();
+    constexpr IntT kMax = std::numeric_limits<IntT>::max();
+    using IntervalT =
+        interval::Interval<interval::Min<kMin>, interval::Max<kMax>>;
+    static_assert(IntervalT::valueAt(2_u16) == kMin + 2_u16, "Invalid value");
+}
+
+TEST(IntervalSigned, IndexOf1)
+{
+    using IntT = int8_t;
+    constexpr IntT kMin = -100_i8;
+    constexpr IntT kMax = -90_i8;
+    using IntervalT =
+        interval::Interval<interval::Min<kMin>, interval::Max<kMax>>;
+    static_assert(IntervalT::indexOf(-95_i8) == 5_u8, "Invalid index");
+}
+
+TEST(IntervalSigned, IndexOf2)
+{
+    using IntT = int16_t;
+    constexpr IntT kMin = std::numeric_limits<IntT>::min();
+    constexpr IntT kMax = std::numeric_limits<IntT>::max();
+    using IntervalT =
+        interval::Interval<interval::Min<kMin>, interval::Max<kMax>>;
+    ASSERT_EQ(IntervalT::indexOf(-1000_i16), 31768_u16);
+    ASSERT_EQ(IntervalT::indexOf(kMin), 0_u16);
+    ASSERT_EQ(IntervalT::indexOf(0_i16), 32768_u16);
+    ASSERT_EQ(IntervalT::indexOf(kMax), std::numeric_limits<uint16_t>::max());
+}

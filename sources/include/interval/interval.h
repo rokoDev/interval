@@ -54,7 +54,7 @@ struct Interval<Min<MinV>, Max<MaxV>>
         }
     }
 
-    constexpr bool contains(T aValue) const noexcept
+    static constexpr bool contains(T aValue) noexcept
     {
         return location(aValue) == eIntervalLocation::kInside;
     }
@@ -76,6 +76,18 @@ struct Interval<Min<MinV>, Max<MaxV>>
                 static_cast<IndexT>(uValue + static_cast<IndexT>(MaxV));
             return uMax - uMin;
         }
+    }
+
+    static constexpr T valueAt(IndexT aIndex) noexcept
+    {
+        assert(aIndex <= kMaxIndex && "Invalid aIndex");
+        return static_cast<T>(MinV + aIndex);
+    }
+
+    static constexpr IndexT indexOf(T aValue) noexcept
+    {
+        assert(contains(aValue) && "aValue does not belong to this interval");
+        return static_cast<IndexT>(aValue - MinV);
     }
 
     static constexpr IndexT kMaxIndex = maxIndex();
