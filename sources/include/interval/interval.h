@@ -59,11 +59,20 @@ struct Interval<Min<MinV>, Max<MaxV>>
         return location(aValue) == eIntervalLocation::kInside;
     }
 
-    static constexpr IndexT maxIndex() noexcept
+    static constexpr IndexT maxIndex() noexcept { return indexOf(MaxV); }
+
+    static constexpr T valueAt(IndexT aIndex) noexcept
     {
+        assert(aIndex <= kMaxIndex && "Invalid aIndex");
+        return static_cast<T>(MinV + static_cast<T>(aIndex));
+    }
+
+    static constexpr IndexT indexOf(T aValue) noexcept
+    {
+        assert(contains(aValue) && "aValue does not belong to this interval");
         if constexpr (std::is_unsigned_v<T>)
         {
-            return MaxV - MinV;
+            return aValue - MinV;
         }
 
         if constexpr (std::is_signed_v<T>)
@@ -72,22 +81,10 @@ struct Interval<Min<MinV>, Max<MaxV>>
                 static_cast<IndexT>(1) + std::numeric_limits<T>::max();
             constexpr IndexT uMin =
                 static_cast<IndexT>(uValue + static_cast<IndexT>(MinV));
-            constexpr IndexT uMax =
-                static_cast<IndexT>(uValue + static_cast<IndexT>(MaxV));
+            const IndexT uMax =
+                static_cast<IndexT>(uValue + static_cast<IndexT>(aValue));
             return uMax - uMin;
         }
-    }
-
-    static constexpr T valueAt(IndexT aIndex) noexcept
-    {
-        assert(aIndex <= kMaxIndex && "Invalid aIndex");
-        return static_cast<T>(MinV + aIndex);
-    }
-
-    static constexpr IndexT indexOf(T aValue) noexcept
-    {
-        assert(contains(aValue) && "aValue does not belong to this interval");
-        return static_cast<IndexT>(aValue - MinV);
     }
 
     static constexpr IndexT kMaxIndex = maxIndex();
