@@ -1,6 +1,7 @@
 #ifndef interval_h
 #define interval_h
 
+#include <cstdint>
 #include <limits>
 #include <type_traits>
 
@@ -16,7 +17,7 @@ struct Max
 {
 };
 
-enum class eIntervalLocation : uint8_t
+enum class eIntervalLocation : std::uint8_t
 {
     kInside = 0b001,  //  value location is inside of the interval
     kAbove = 0b010,   //  value location is above the interval
