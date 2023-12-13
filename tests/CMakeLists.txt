@@ -5,17 +5,15 @@ project(${ProjectName})
 
 include(FetchContent)
 
-cmake_path(APPEND FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}" "deps_content" "${CMAKE_GENERATOR_NAME_WITHOUT_SPACES}")
-
 FetchContent_Declare(
     googletest
 	  GIT_REPOSITORY https://github.com/google/googletest.git
-	  GIT_TAG c0e032efe587efa99413dd9ac54c3953a7915588)
+	  GIT_TAG b3a9ba2b8e975550799838332803d468797ae2e1)
 
 FetchContent_Declare(
     utils
     GIT_REPOSITORY https://github.com/rokoDev/utils.git
-    GIT_TAG        fcea2ec10c95ca97f190aba76c8fa0c8b547b7ec
+    GIT_TAG        0f5a0276194c2b72ef289aa731afa497fb6d6f15
 )
 
 FetchContent_Declare(
